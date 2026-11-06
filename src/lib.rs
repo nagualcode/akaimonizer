@@ -1,4 +1,4 @@
-//! ChorusVox: emulacao do Akai DecaBuddy HV10 (Harmony Processing Unit).
+//! AkaiMonizer: emulacao do Akai DecaBuddy HV10 (Harmony Processing Unit).
 
 pub mod core;
 pub mod dsp;
@@ -152,7 +152,7 @@ pub mod truce_integration {
     }
 
     #[derive(Params)]
-    pub struct ChorusVoxParams {
+    pub struct AkaiMonizerParams {
         #[param(name = "Mode", default = 0)] pub mode: EnumParam<ModeChoice>,
         #[param(name = "Key", default = 0)] pub key: EnumParam<KeyChoice>,
         #[param(name = "Sub", default = false)] pub sub: BoolParam,
@@ -346,7 +346,7 @@ pub mod truce_integration {
         #[meter] pub meter_program: MeterSlot,
     }
 
-    impl ChorusVoxParams {
+    impl AkaiMonizerParams {
         fn fmt_signed(&self, v: f64) -> String {
             let v = v.round() as i64;
             if v > 0 { format!("+{v}") } else { format!("{v}") }
@@ -505,7 +505,7 @@ pub mod truce_integration {
     /// Valores de parametro (nome do campo, id, valor "plain") que reproduzem um estado do HV10.
     /// Usado pelos presets de fabrica e pela troca de programa na interface. Parametros GLOBAIS
     /// (Tune, MIDI Ch, Input, Bypass) e os User Styles nao fazem parte de um programa.
-    pub fn program_values(params: &ChorusVoxParams, p: &Hv10Params) -> Vec<(&'static str, u32, f64)> {
+    pub fn program_values(params: &AkaiMonizerParams, p: &Hv10Params) -> Vec<(&'static str, u32, f64)> {
         use crate::core::{Buddies, OriginBuddies};
         let mode = match p.harmony.mode {
             HarmonyMode::Style => 0,
@@ -654,7 +654,7 @@ pub mod truce_integration {
         }
     }
 
-    pub struct ChorusVoxDsp {
+    pub struct AkaiMonizerDsp {
         pub core: Hv10Processor,
         last_host: Option<Hv10Params>,
         mono_scratch: Vec<f32>,
@@ -662,7 +662,7 @@ pub mod truce_integration {
         out_r_scratch: Vec<f32>,
     }
 
-    impl Default for ChorusVoxDsp {
+    impl Default for AkaiMonizerDsp {
         fn default() -> Self {
             Self {
                 core: Hv10Processor::new(44_100.0),
@@ -674,7 +674,7 @@ pub mod truce_integration {
         }
     }
 
-    impl ChorusVoxDsp {
+    impl AkaiMonizerDsp {
         /// Processa `start..end` do bloco do host em pedacos do tamanho dos buffers de trabalho
         /// (alocados em `reset`): nada e alocado na thread de audio, mesmo que o host mande um
         /// bloco maior que o anunciado. `peaks` = picos de entrada, saida L e R.
@@ -711,14 +711,14 @@ pub mod truce_integration {
         }
     }
 
-    pub struct ChorusVox;
+    pub struct AkaiMonizer;
 
-    impl PluginLogic for ChorusVox {
-        type Params = ChorusVoxParams;
-        type DspState = ChorusVoxDsp;
+    impl PluginLogic for AkaiMonizer {
+        type Params = AkaiMonizerParams;
+        type DspState = AkaiMonizerDsp;
 
         fn init(_params: &Self::Params, _cx: &InitContext) -> Self::DspState {
-            ChorusVoxDsp::default()
+            AkaiMonizerDsp::default()
         }
 
         fn reset(state: &mut Self::DspState, _params: &Self::Params, config: &AudioConfig) {
@@ -793,14 +793,14 @@ pub mod truce_integration {
         }
     }
 
-    use ChorusVoxParamsParamId as P;
+    use AkaiMonizerParamsParamId as P;
 
-    truce::plugin! { logic: ChorusVox, params: ChorusVoxParams }
+    truce::plugin! { logic: AkaiMonizer, params: AkaiMonizerParams }
 }
 
 #[cfg(all(test, feature = "truce-plugin"))]
 mod program_roundtrip_tests {
-    use super::truce_integration::{program_values, ChorusVoxParams};
+    use super::truce_integration::{program_values, AkaiMonizerParams};
     use crate::programs::factory_programs;
     use truce::params::Params;
 
@@ -808,7 +808,7 @@ mod program_roundtrip_tests {
     #[test]
     fn every_factory_program_survives_the_parameter_roundtrip() {
         for prog in factory_programs() {
-            let params = ChorusVoxParams::default();
+            let params = AkaiMonizerParams::default();
             for (_, id, value) in program_values(&params, &prog.params) {
                 params.set_plain(id, value);
             }

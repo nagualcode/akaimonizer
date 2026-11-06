@@ -1,18 +1,18 @@
 [package]
-name = "chorusvox"
+name = "akaimonizer"
 version = "0.4.1"
 edition = "2021"
-description = "ChorusVox: emulacao do Akai DecaBuddy HV10 em Rust"
+description = "AkaiMonizer: emulacao do Akai DecaBuddy HV10 em Rust"
 license = "MIT OR Apache-2.0"
 
 [lib]
-name = "chorusvox"
+name = "akaimonizer"
 path = "src/lib.rs"
 crate-type = ["cdylib", "staticlib", "rlib"]
 
 [[bin]]
-name = "chorusvox_cli"
-path = "src/bin/chorusvox_cli.rs"
+name = "akaimonizer_cli"
+path = "src/bin/akaimonizer_cli.rs"
 
 [features]
 default = ["truce-plugin"]

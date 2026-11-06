@@ -1,20 +1,20 @@
-# ChorusVox 🎙️🎛️
+# AkaiMonizer 🎙️🎛️
 
 [![macOS Supported](https://img.shields.io/badge/platform-macOS%20(AU%20%2F%20VST3)-blue.svg)](#-macos-installation--release-assets)
 [![Rust](https://img.shields.io/badge/language-Rust-orange.svg)](https://www.rust-lang.org/)
 [![License: MIT/Apache-2.0](https://img.shields.io/badge/license-MIT%20%2F%20Apache--2.0-green.svg)](LICENSE)
 
-**ChorusVox** is a Rust emulation of the **Akai DecaBuddy HV10** vocal harmony processor (1 original voice + 4 harmonies + 5 unison voices = 10 voices). It reproduces the unit's controls, harmony modes and processing chain, and adds one modern extra: the **SMART** MIDI mode.
+**AkaiMonizer** is a Rust emulation of the **Akai DecaBuddy HV10** vocal harmony processor (1 original voice + 4 harmonies + 5 unison voices = 10 voices). It reproduces the unit's controls, harmony modes and processing chain, and adds one modern extra: the **SMART** MIDI mode.
 
 <p align="center">
-  <img src="preview.jpg" alt="ChorusVox Interface" width="100%">
+  <img src="preview.jpg" alt="AkaiMonizer Interface" width="100%">
 </p>
 
 ---
 
 ## 🚀 Quick Start: how to use it
 
-Put ChorusVox on a **vocal track** as an insert effect and sing. The plugin listens to your voice and adds up to **4 harmony voices** that follow you as you sing.
+Put AkaiMonizer on a **vocal track** as an insert effect and sing. The plugin listens to your voice and adds up to **4 harmony voices** that follow you as you sing.
 
 ### What each part of the screen does
 
@@ -70,13 +70,13 @@ Tips:
 Pre-compiled binaries are packaged for **macOS on Apple Silicon (arm64)** (Ableton Live, Logic Pro, Reaper, Bitwig, Studio One, Cubase, FL Studio, etc.).
 
 1. Open the **[Releases](../../releases)** page of this repository.
-2. Under the latest version, expand **Assets** and download **`ChorusVox-macOS-AU-VST3.zip`**.
+2. Under the latest version, expand **Assets** and download **`AkaiMonizer-macOS-AU-VST3.zip`**.
 3. Extract the archive and copy the bundles:
-   * **Audio Unit (AUv2):** `ChorusVox.component` → `~/Library/Audio/Plug-Ins/Components/`
-   * **VST3:** `ChorusVox.vst3` → `~/Library/Audio/Plug-Ins/VST3/`
+   * **Audio Unit (AUv2):** `AkaiMonizer.component` → `~/Library/Audio/Plug-Ins/Components/`
+   * **VST3:** `AkaiMonizer.vst3` → `~/Library/Audio/Plug-Ins/VST3/`
 4. If macOS Gatekeeper blocks the plug-in:
    ```bash
-   xattr -cr ~/Library/Audio/Plug-Ins/VST3/ChorusVox.vst3 ~/Library/Audio/Plug-Ins/Components/ChorusVox.component
+   xattr -cr ~/Library/Audio/Plug-Ins/VST3/AkaiMonizer.vst3 ~/Library/Audio/Plug-Ins/Components/AkaiMonizer.component
    ```
 5. Restart your DAW to rescan.
 
@@ -93,8 +93,8 @@ Pre-compiled binaries are packaged for **macOS on Apple Silicon (arm64)** (Ablet
    cargo truce reset-au --yes           # flush the AU cache
    cargo truce uninstall --vst3 --au2
    cargo test --release                 # DSP / harmony test suite
-   cargo run --release --bin chorusvox_cli [in.wav] [out.wav]   # offline render + benchmark
-   cargo run --release --bin chorusvox_cli presets presets      # regenerate the 100 factory presets
+   cargo run --release --bin akaimonizer_cli [in.wav] [out.wav]   # offline render + benchmark
+   cargo run --release --bin akaimonizer_cli presets presets      # regenerate the 100 factory presets
    ```
 
 ---

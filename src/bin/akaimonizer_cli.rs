@@ -1,9 +1,9 @@
-//! CLI de validacao, processamento WAV e Benchmark para o ChorusVox.
+//! CLI de validacao, processamento WAV e Benchmark para o AkaiMonizer.
 
-use chorusvox::dsp::FastRng;
-use chorusvox::dsp::RandDelay;
-use chorusvox::scales::StyleId;
-use chorusvox::{Buddies, Hv10Processor};
+use akaimonizer::dsp::FastRng;
+use akaimonizer::dsp::RandDelay;
+use akaimonizer::scales::StyleId;
+use akaimonizer::{Buddies, Hv10Processor};
 use std::env;
 use std::f32::consts::PI;
 use std::fs::File;
@@ -189,10 +189,10 @@ fn read_wav_mono(path: &str) -> std::io::Result<(Vec<f32>, u32)> {
 /// Escreve os 100 programas de fabrica do HV10 como presets de fabrica do truce
 /// (`presets/<modo>/<id nome>.preset`), empacotados no bundle por `cargo truce install`.
 fn write_factory_presets(dir: &str) -> std::io::Result<()> {
-    use chorusvox::harmony::HarmonyMode;
-    use chorusvox::programs::factory_programs;
-    use chorusvox::truce_integration::{program_values, ChorusVoxParams};
-    let params = ChorusVoxParams::default();
+    use akaimonizer::harmony::HarmonyMode;
+    use akaimonizer::programs::factory_programs;
+    use akaimonizer::truce_integration::{program_values, AkaiMonizerParams};
+    let params = AkaiMonizerParams::default();
     for (i, prog) in factory_programs().iter().enumerate() {
         let category = match prog.params.harmony.mode {
             HarmonyMode::Style => "Style",
@@ -235,7 +235,7 @@ fn main() -> std::io::Result<()> {
     if args.len() >= 4 && args[1] == "track" {
         // Leituras do rastreador de pitch original: "amostra midi periodo unvoiced".
         let (input, sr) = read_wav_mono(&args[2])?;
-        let mut t = chorusvox::pitch::PitchTracker::new(sr as f32);
+        let mut t = akaimonizer::pitch::PitchTracker::new(sr as f32);
         let mut out = BufWriter::new(File::create(&args[3])?);
         for (n, &x) in input.iter().enumerate() {
             if t.process(x) {
@@ -252,7 +252,7 @@ fn main() -> std::io::Result<()> {
         (dry, SR)
     };
 
-    let out_path = if args.len() >= 3 { args[2].as_str() } else { "chorusvox_output.wav" };
+    let out_path = if args.len() >= 3 { args[2].as_str() } else { "akaimonizer_output.wav" };
 
     let mut proc = Hv10Processor::new(sr as f32);
     // Programa 01A de fabrica (Origin + 3A em H1/H2) mais L2 uma oitava abaixo com unison.

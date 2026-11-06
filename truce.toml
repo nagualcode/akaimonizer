@@ -4,11 +4,11 @@ id = "com.jardimsonoro"
 au_manufacturer = "JdSn"
 
 [[plugin]]
-name = "ChorusVox"
-bundle_id = "chorusvox"
-crate = "chorusvox"
+name = "AkaiMonizer"
+bundle_id = "akaimonizer"
+crate = "akaimonizer"
 category = "effect"
 vst3_subcategory = "Pitch Shift"
-fourcc = "ChVx"
+fourcc = "AkMz"
 au_tag = "Music Effects"
 midi_input = true

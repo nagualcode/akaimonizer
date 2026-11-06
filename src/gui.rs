@@ -1,10 +1,10 @@
-//! Interface do ChorusVox (egui): visual plano, compacto e colorido inspirado no Ableton Live.
+//! Interface do AkaiMonizer (egui): visual plano, compacto e colorido inspirado no Ableton Live.
 //! Cada voz do HV10 e uma faixa vertical com a sua cor (as cores das harmonias do plugin
 //! DecaBuddy original: azul, amarelo, verde e laranja); so os controles do modo ativo aparecem.
 
 use crate::scales::{StyleBank, StyleId, StyleLookup};
 use crate::programs::{factory_programs, FactoryProgram};
-use crate::truce_integration::{program_values, ChorusVoxParams, ChorusVoxParamsParamId as P};
+use crate::truce_integration::{program_values, AkaiMonizerParams, AkaiMonizerParamsParamId as P};
 use egui::{Align2, Color32, CornerRadius, FontId, Pos2, Rect, Sense, Stroke, StrokeKind, Vec2};
 use std::collections::HashMap;
 use truce::params::ParamInfo;
@@ -97,7 +97,7 @@ impl Default for HvGui {
     }
 }
 
-type Ctx = PluginContext<ChorusVoxParams>;
+type Ctx = PluginContext<AkaiMonizerParams>;
 
 impl HvGui {
     fn ensure_infos(&mut self, state: &Ctx) {
@@ -290,7 +290,7 @@ impl HvGui {
 
     fn header(&mut self, ui: &mut egui::Ui, state: &Ctx) {
         ui.horizontal(|ui| {
-            ui.label(egui::RichText::new("CHORUSVOX").size(15.0).strong().color(TEXT));
+            ui.label(egui::RichText::new("AKAIMONIZER").size(15.0).strong().color(TEXT));
             ui.label(egui::RichText::new("HV10").size(10.0).color(DIM));
             ui.add_space(10.0);
             let current = self
@@ -646,7 +646,7 @@ fn small_button(ui: &mut egui::Ui, text: &str, width: f32) -> bool {
     resp.clicked()
 }
 
-impl EditorUi<ChorusVoxParams> for HvGui {
+impl EditorUi<AkaiMonizerParams> for HvGui {
     fn ui(&mut self, ui: &mut egui::Ui, state: &Ctx) {
         self.ensure_infos(state);
         if self.programs.is_empty() {
